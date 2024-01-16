@@ -1,10 +1,10 @@
 package ru.yandex.practicum.sprint13koh11
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
 
         changeCurrentScreenMode(ScreenMode.CATALOG)
         binding.toolbar.setTitle(R.string.catalog_title)
@@ -127,6 +128,7 @@ class MainActivity : AppCompatActivity() {
                         it
                     }
                 }
+
                 catalogItemsAdapter.setItems(catalogItems)
             }
         }
@@ -153,12 +155,14 @@ class MainActivity : AppCompatActivity() {
             }
             onRemoveCountClickListener = OnCartRemoveCountClickListener { item ->
                 cartItems = cartItems.map {
+
                     if (it.id == item.id) {
                         it.copy(count = it.count - 1)
                     } else {
                         it
                     }
                 }
+
                 cartItemsAdapter.setItems(cartItems)
             }
         }
@@ -170,10 +174,12 @@ class MainActivity : AppCompatActivity() {
                 changeCurrentScreenMode(ScreenMode.CATALOG)
                 true
             }
+
             R.id.cart -> {
                 changeCurrentScreenMode(ScreenMode.CART)
                 true
             }
+
             else -> false
         }
     }
@@ -186,6 +192,7 @@ class MainActivity : AppCompatActivity() {
                     binding.cartContainer.visibility = View.GONE
                     binding.toolbar.setTitle(R.string.catalog_title)
                 }
+
                 ScreenMode.CART -> {
                     binding.catalogContainer.visibility = View.GONE
                     binding.cartContainer.visibility = View.VISIBLE

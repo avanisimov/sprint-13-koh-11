@@ -1,5 +1,6 @@
 package ru.yandex.practicum.sprint13koh11
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import ru.yandex.practicum.sprint13koh11.databinding.VCatalogItemBinding
 data class CatalogItemViewData(
     val item: CatalogItem,
     val count: Int?,
-){
+) {
     val id = item.id
 }
 
@@ -36,10 +37,14 @@ class CatalogItemViewHolder(
         binding.price.text = "${viewData.item.price / 100}/${viewData.item.unit}"
 
         if (viewData.count != null) {
-            binding.addToCart.visibility = View.GONE
-            binding.countContainer.visibility = View.VISIBLE
-            binding.count.text = viewData.count.toString()
+            if (viewData.count != 0) {
+                binding.addToCart.visibility = View.GONE
+                binding.countContainer.visibility = View.VISIBLE
+                binding.count.text = viewData.count.toString()
+            } else {
+                binding.addToCart.visibility = View.VISIBLE
+                binding.countContainer.visibility = View.GONE
+            }
         }
     }
-
 }

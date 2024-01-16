@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-
         changeCurrentScreenMode(ScreenMode.CATALOG)
         binding.toolbar.setTitle(R.string.catalog_title)
         binding.bottomNavigation.selectedItemId = R.id.catalog

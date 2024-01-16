@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 catalogItemsAdapter.setItems(catalogItems)
-                onEmptyCart(cartItems.size)
+                onCartSizeChanged(cartItems.size)
             }
             onAddCountClickListener = OnAddCountClickListener { item ->
                 catalogItems = catalogItems.map {
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpCart() {
-        onEmptyCart(cartItems.size)
+        onCartSizeChanged(cartItems.size)
         binding.cartItemsList.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = cartItemsAdapter
@@ -165,12 +165,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 cartItemsAdapter.setItems(cartItems)
-                onEmptyCart(cartItems.size)
+                onCartSizeChanged(cartItems.size)
             }
         }
     }
 
-    private fun onEmptyCart(count: Int) {
+    private fun onCartSizeChanged(count: Int) {
         binding.cartEmptyTitle.isVisible = count <= 0
     }
 

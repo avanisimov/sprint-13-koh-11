@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
@@ -108,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 catalogItemsAdapter.setItems(catalogItems)
+                onCartSizeChanged(cartItems.size)
             }
             onAddCountClickListener = OnAddCountClickListener { item ->
                 catalogItems = catalogItems.map {
@@ -134,6 +136,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpCart() {
+        onCartSizeChanged(cartItems.size)
         binding.cartItemsList.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = cartItemsAdapter
@@ -161,10 +164,14 @@ class MainActivity : AppCompatActivity() {
                         it
                     }
                 }
-
                 cartItemsAdapter.setItems(cartItems)
+                onCartSizeChanged(cartItems.size)
             }
         }
+    }
+
+    private fun onCartSizeChanged(count: Int) {
+        binding.cartEmptyTitle.isVisible = count <= 0
     }
 
     private fun onBottomNavigationItemSelected(itemId: Int): Boolean {

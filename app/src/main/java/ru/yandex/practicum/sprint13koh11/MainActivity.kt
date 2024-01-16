@@ -1,10 +1,11 @@
 package ru.yandex.practicum.sprint13koh11
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
@@ -108,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 catalogItemsAdapter.setItems(catalogItems)
+                onCartSizeChanged(cartItems.size)
             }
             onAddCountClickListener = OnAddCountClickListener { item ->
                 catalogItems = catalogItems.map {
@@ -127,12 +129,14 @@ class MainActivity : AppCompatActivity() {
                         it
                     }
                 }
+
                 catalogItemsAdapter.setItems(catalogItems)
             }
         }
     }
 
     private fun setUpCart() {
+        onCartSizeChanged(cartItems.size)
         binding.cartItemsList.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = cartItemsAdapter
@@ -153,6 +157,7 @@ class MainActivity : AppCompatActivity() {
             }
             onRemoveCountClickListener = OnCartRemoveCountClickListener { item ->
                 cartItems = cartItems.map {
+
                     if (it.id == item.id) {
                         it.copy(count = it.count - 1)
                     } else {
@@ -160,8 +165,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 cartItemsAdapter.setItems(cartItems)
+                onCartSizeChanged(cartItems.size)
             }
         }
+    }
+
+    private fun onCartSizeChanged(count: Int) {
+        binding.cartEmptyTitle.isVisible = count <= 0
     }
 
     private fun onBottomNavigationItemSelected(itemId: Int): Boolean {
@@ -170,10 +180,12 @@ class MainActivity : AppCompatActivity() {
                 changeCurrentScreenMode(ScreenMode.CATALOG)
                 true
             }
+
             R.id.cart -> {
                 changeCurrentScreenMode(ScreenMode.CART)
                 true
             }
+
             else -> false
         }
     }
@@ -184,10 +196,13 @@ class MainActivity : AppCompatActivity() {
                 ScreenMode.CATALOG -> {
                     binding.catalogContainer.visibility = View.VISIBLE
                     binding.cartContainer.visibility = View.GONE
+                    binding.toolbar.setTitle(R.string.catalog_title)
                 }
+
                 ScreenMode.CART -> {
                     binding.catalogContainer.visibility = View.GONE
                     binding.cartContainer.visibility = View.VISIBLE
+                    binding.toolbar.setTitle(R.string.cart_title)
                 }
             }
             currentScreenMode = newScreenMode
